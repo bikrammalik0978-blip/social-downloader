@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Premium Downloader</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
+}
+
+body{
+
+background:#020b24;
+min-height:100vh;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+padding:20px;
+
+color:white;
+
+}
+
+.box{
+
+width:100%;
+max-width:380px;
+
+background:#09152f;
+
+padding:25px;
+
+border-radius:25px;
+
+box-shadow:
+0 0 30px rgba(0,0,0,0.5);
+
+text-align:center;
+
+}
+
+.logo{
+
+font-size:45px;
+margin-bottom:10px;
+
+}
+
+h1{
+
+font-size:42px;
+margin-bottom:10px;
+
+}
+
+.subtitle{
+
+color:#9ca3af;
+margin-bottom:25px;
+
+}
+
+input,select{
+
+width:100%;
+
+padding:16px;
+
+margin-top:15px;
+
+border:none;
+
+outline:none;
+
+border-radius:16px;
+
+background:#18243d;
+
+color:white;
+
+font-size:18px;
+
+}
+
+button{
+
+width:100%;
+
+padding:17px;
+
+margin-top:20px;
+
+border:none;
+
+border-radius:16px;
+
+background:#2952e3;
+
+color:white;
+
+font-size:22px;
+
+font-weight:bold;
+
+cursor:pointer;
+
+transition:0.3s;
+
+}
+
+button:hover{
+
+opacity:0.9;
+
+transform:scale(1.02);
+
+}
+
+.thumb{
+
+width:100%;
+
+margin-top:20px;
+
+border-radius:20px;
+
+display:none;
+
+object-fit:cover;
+
+}
+
+.title{
+
+margin-top:15px;
+
+font-size:20px;
+
+font-weight:bold;
+
+line-height:30px;
+
+}
+
+.progress{
+
+width:100%;
+
+height:12px;
+
+background:#18243d;
+
+border-radius:20px;
+
+overflow:hidden;
+
+margin-top:20px;
+
+display:none;
+
+}
+
+.bar{
+
+height:100%;
+
+width:0%;
+
+background:#2952e3;
+
+transition:1s;
+
+}
+
+.status{
+
+margin-top:15px;
+
+color:#cbd5e1;
+
+font-size:17px;
+
+}
+
+.footer{
+
+margin-top:25px;
+
+font-size:14px;
+
+color:#6b7280;
+
+}
+
+.features{
+
+margin-top:25px;
+
+text-align:left;
+
+}
+
+.features p{
+
+margin-top:10px;
+
+color:#cbd5e1;
+
+font-size:15px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="box">
+
+<div class="logo">
+⚡
+</div>
+
+<h1>Downloader</h1>
+
+<div class="subtitle">
+YouTube • Instagram • MP3 • HD
+</div>
+
+<input
+type="text"
+id="url"
+placeholder="Paste video URL">
+
+<select id="quality">
+
+<option value="1080">
+1080p Full HD
+</option>
+
+<option value="720">
+720p HD
+</option>
+
+<option value="480">
+480p
+</option>
+
+<option value="mp3">
+MP3 Audio
+</option>
+
+</select>
+
+<button onclick="getInfo()">
+Get Video
+</button>
+
+<img
+id="thumb"
+class="thumb"
+onerror="this.style.display='none'">
+
+<div
+id="title"
+class="title">
+</div>
+
+<button
+id="downloadBtn"
+style="display:none;"
+onclick="downloadVideo()">
+
+Download Now
+
+</button>
+
+<div
+class="progress"
+id="progress">
+
+<div
+class="bar"
+id="bar">
+</div>
+
+</div>
+
+<div
+class="status"
+id="status">
+</div>
+
+<div class="features">
+
+<p>✅ Fast Download</p>
+
+<p>✅ HD Quality</p>
+
+<p>✅ MP3 Support</p>
+
+<p>✅ No Watermark</p>
+
+<p>✅ Unlimited Downloads</p>
+
+</div>
+
+<div class="footer">
+
+Powered by yt-dlp + Node.js
+
+</div>
+
+</div>
+
+<script>
+
+async function getInfo(){
+
+const url =
+document.getElementById('url').value;
+
+if(!url){
+
+alert('Paste video URL');
+
+return;
+
+}
+
+document.getElementById('status')
+.innerText =
+'Fetching video info...';
+
+try{
+
+const response =
+await fetch('/info',{
+
+method:'POST',
+
+headers:{
+'Content-Type':'application/json'
+},
+
+body:JSON.stringify({url})
+
+});
+
+const data =
+await response.json();
+
+if(data.thumbnail){
+
+document.getElementById('thumb')
+.src = data.thumbnail;
+
+document.getElementById('thumb')
+.style.display='block';
+
+}
+
+document.getElementById('title')
+.innerText =
+data.title || 'Video Ready';
+
+document.getElementById('downloadBtn')
+.style.display='block';
+
+document.getElementById('status')
+.innerText =
+'Ready to download';
+
+}catch(err){
+
+document.getElementById('status')
+.innerText =
+'Failed to fetch info';
+
+}
+
+}
+
+async function downloadVideo(){
+
+const url =
+document.getElementById('url').value;
+
+const quality =
+document.getElementById('quality').value;
+
+if(!url){
+
+alert('Paste URL');
+
+return;
+
+}
+
+const bar =
+document.getElementById('bar');
+
+const status =
+document.getElementById('status');
+
+bar.style.width = '0%';
+
+status.innerText = 'Starting download...';
+
+let progress = 0;
+
+const interval = setInterval(()=>{
+
+progress += 10;
+
+if(progress <= 90){
+
+bar.style.width =
+progress + '%';
+
+status.innerText =
+'Downloading... ' + progress + '%';
+
+}
+
+},700);
+
+window.location.href =
+`/download?url=${encodeURIComponent(url)}`;
+
+setTimeout(()=>{
+
+clearInterval(interval);
+
+bar.style.width = '100%';
+
+status.innerText =
+'Download complete';
+
+},8000);
+
+}
+
+</script>
+
+</body>
+</html>
