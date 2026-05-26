@@ -22,7 +22,7 @@ success:false
 });
 }
 
-const command = `yt-dlp -f mp4 -o "video.mp4" "${url}"`;
+const command = `yt-dlp --no-check-certificates --geo-bypass -f mp4 -o "video.mp4" "${url}"`;
 
 exec(command, (error, stdout) => {
 
