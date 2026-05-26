@@ -22,8 +22,7 @@ success:false
 });
 }
 
-const command =
-`yt-dlp -f "bestvideo+bestaudio/best" --merge-output-format mp4 -o "video.mp4" "${url}"`;
+const command = `yt-dlp -f "bestvideo+bestaudio/best" --merge-output-format mp4 -o "video.mp4" "${url}"`;
 
 exec(command, (error, stdout) => {
 
