@@ -1,4 +1,5 @@
 const express = require('express');
+const fs = require('fs');
 const cors = require('cors');
 const path = require('path');
 const { exec } = require('child_process');
@@ -119,7 +120,9 @@ return res.send('Download failed');
 
 }
 
-res.download(path.join(__dirname,'video.mp4'));
+res.download(path.join(__dirname,'video.mp4'), () => {
+fs.unlinkSync(path.join(__dirname,'video.mp4'));
+});
 
 });
 
