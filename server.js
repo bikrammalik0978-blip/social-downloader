@@ -125,7 +125,9 @@ res.download(path.join(__dirname,'video.mp4'));
 
 });
 
-
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/index.html');
+});
 app.listen(3000, () => {
 
 console.log('Running on http://localhost:3000');
