@@ -22,7 +22,7 @@ success:false
 });
 }
 
-const command = `yt-dlp --no-check-certificates --geo-bypass -f mp4 -o "video.mp4" "${url}"`;
+const command = `yt-dlp --dump-json "${url}"`;
 
 exec(command, (error, stdout) => {
 
@@ -39,14 +39,15 @@ success:false
 try {
 
 const data = JSON.parse(stdout);
-
 res.json({
 
 success:true,
 
 title:data.title || 'Video',
 
-thumbnail:data.thumbnail || ''
+thumbnail:data.thumbnail || '',
+
+url:'/download?url=' + encodeURIComponent(url)
 
 });
 
