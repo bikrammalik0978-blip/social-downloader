@@ -269,16 +269,21 @@ MP3 Audio
 <button onclick="getInfo()">
 Get Video
 </button>
+<div id="preview" style="display:none; margin-top:20px;">
 
-<img
-id="thumb"
-class="thumb"
-onerror="this.style.display='none'">
+<img id="thumb"
+style="width:100%; border-radius:15px;">
 
-<div
-id="title"
-class="title">
+<h3 id="title"
+style="color:white; margin-top:10px;"></h3>
+
+<video id="videoPlayer"
+controls
+style="width:100%; border-radius:15px; margin-top:10px;">
+</video>
+
 </div>
+
 
 <button
 id="downloadBtn"
@@ -366,13 +371,16 @@ body:JSON.stringify({url})
 const data =
 await response.json();
 
-if(data.thumbnail){
 
-document.getElementById('thumb')
-.src = data.thumbnail;
+if(data.success){
 
-document.getElementById('thumb')
-.style.display='block';
+document.getElementById("preview").style.display = "block";
+
+document.getElementById("thumb").src = data.thumbnail;
+
+document.getElementById("title").innerText = data.title;
+
+document.getElementById("videoPlayer").src = data.url;
 
 }
 
