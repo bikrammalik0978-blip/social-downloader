@@ -39,6 +39,7 @@ success:false
 try {
 
 const data = JSON.parse(stdout);
+const videoUrl = data.url;
 res.json({
 
 success:true,
@@ -47,7 +48,9 @@ title:data.title || 'Video',
 
 thumbnail:data.thumbnail || '',
 
-url:'/download?url=' + encodeURIComponent(url)
+url: videoUrl,
+
+download:'/download?url=' + encodeURIComponent(url)
 
 });
 
