@@ -11,22 +11,32 @@ app.use(express.json());
 app.use(express.static(__dirname));
 
 
+// ==========================
 // VIDEO INFO
+// ==========================
+
 app.post('/info', (req, res) => {
 
 const url = req.body.url;
 
 if (!url) {
+
 return res.json({
 success:false
 });
+
 }
 
-const command = `yt-dlp --dump-json "${url}"`;
+const command =
+`yt-dlp --dump-json "${url}"`;
 
-exec(command, (error, stdout) => {
+exec(command, {
 
-if (error) {
+maxBuffer: 1024 * 1024 * 50
+
+}, (error, stdout) => {
+
+if(error){
 
 console.log(error);
 
@@ -36,25 +46,55 @@ success:false
 
 }
 
-try {
+try{
 
-const data = JSON.parse(stdout);
-const videoUrl = data.url;
+const data =
+JSON.parse(stdout);
+
+const videoUrl =
+data.url || '';
+
 res.json({
 
 success:true,
 
-title:data.title || 'Video',
+title:
+data.title || 'Video',
 
-thumbnail:data.thumbnail || '',
+thumbnail:
+data.thumbnail || '',
 
-url: videoUrl,
+url:
+videoUrl,
 
-download:'/download?url=' + encodeURIComponent(url)
+download:
+'/download?url=' +
+encodeURIComponent(url),
+
+uploader:
+data.uploader || 'Unknown',
+
+views:
+data.view_count || '0',
+
+likes:
+data.like_count || '0',
+
+duration:
+data.duration_string || 'Unknown',
+
+uploadDate:
+data.upload_date || 'Unknown',
+
+description:
+data.description || 'No description',
+
+tags:
+data.tags || []
 
 });
 
-} catch(err){
+}catch(err){
 
 console.log(err);
 
@@ -69,28 +109,40 @@ success:false
 });
 
 
+// ==========================
+// DOWNLOAD VIDEO
+// ==========================
 
-// DOWNLOAD
 app.get('/download', (req, res) => {
 
-const url = req.query.url;
+const url =
+req.query.url;
 
-const quality = req.query.quality || '720';
+const quality =
+req.query.quality || '720';
 
 if(!url){
+
 return res.send('No URL');
+
 }
 
 let command = '';
 
 
-// MP3
+// MP3 DOWNLOAD
+
 if(quality === 'mp3'){
 
 command =
 `yt-dlp -x --audio-format mp3 -o "audio.mp3" "${url}"`;
 
-exec(command, (error) => {
+exec(command, {
+
+maxBuffer:
+1024 * 1024 * 50
+
+}, (error) => {
 
 if(error){
 
@@ -100,7 +152,15 @@ return res.send('Download failed');
 
 }
 
-res.download(path.join(__dirname,'audio.mp3'));
+res.download(
+path.join(__dirname,'audio.mp3'),
+() => {
+
+fs.unlinkSync(
+path.join(__dirname,'audio.mp3')
+);
+
+});
 
 });
 
@@ -109,12 +169,17 @@ return;
 }
 
 
+// VIDEO DOWNLOAD
 
-// VIDEO
 command =
-`yt-dlp -o "video.mp4" "${url}"`;
+`yt-dlp -f mp4 -o "video.mp4" "${url}"`;
 
-exec(command, { maxBuffer: 1024 * 1024 * 50 }, (error) => {
+exec(command, {
+
+maxBuffer:
+1024 * 1024 * 100
+
+}, (error) => {
 
 if(error){
 
@@ -124,19 +189,45 @@ return res.send('Download failed');
 
 }
 
-res.download(path.join(__dirname,'video.mp4'), () => {
-fs.unlinkSync(path.join(__dirname,'video.mp4'));
-});
+res.download(
+path.join(__dirname,'video.mp4'),
+() => {
+
+fs.unlinkSync(
+path.join(__dirname,'video.mp4')
+);
 
 });
 
 });
+
+});
+
+
+// ==========================
+// HOME PAGE
+// ==========================
 
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html');
-});
-app.listen(3000, () => {
 
-console.log('Running on http://localhost:3000');
+res.sendFile(
+path.join(__dirname,'index.html')
+);
+
+});
+
+
+// ==========================
+// START SERVER
+// ==========================
+
+const PORT =
+process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+
+console.log(
+`Running on port ${PORT}`
+);
 
 });

@@ -8,7 +8,17 @@
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
-<title>Premium Downloader</title>
+<title>Elite Downloader Pro</title>
+
+<link rel="preconnect"
+href="https://fonts.googleapis.com">
+
+<link rel="preconnect"
+href="https://fonts.gstatic.com"
+crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
 
 <style>
 
@@ -16,12 +26,19 @@ content="width=device-width, initial-scale=1.0">
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:Arial;
+font-family:'Poppins',sans-serif;
 }
 
 body{
 
-background:#020b24;
+background:
+linear-gradient(
+135deg,
+#020617,
+#071330,
+#0f172a
+);
+
 min-height:100vh;
 
 display:flex;
@@ -30,6 +47,8 @@ align-items:center;
 
 padding:20px;
 
+overflow-x:hidden;
+
 color:white;
 
 }
@@ -37,16 +56,22 @@ color:white;
 .box{
 
 width:100%;
-max-width:450px;
+max-width:470px;
 
-background:#09152f;
+background:
+rgba(9,21,47,0.88);
 
-padding:40px;
+backdrop-filter:blur(20px);
 
-border-radius:25px;
+padding:35px;
+
+border-radius:28px;
+
+border:
+1px solid rgba(255,255,255,0.08);
 
 box-shadow:
-0 0 30px rgba(0,0,0,0.5);
+0 0 60px rgba(0,0,0,0.45);
 
 text-align:center;
 
@@ -54,22 +79,44 @@ text-align:center;
 
 .logo{
 
-font-size:45px;
+font-size:55px;
+
 margin-bottom:10px;
 
 }
 
 h1{
 
-font-size:42px;
+font-size:38px;
+
 margin-bottom:10px;
 
 }
 
 .subtitle{
 
-color:#9ca3af;
+color:#94a3b8;
+
 margin-bottom:25px;
+
+font-size:15px;
+
+}
+
+.inputBox{
+
+position:relative;
+
+}
+
+.inputIcon{
+
+position:absolute;
+
+left:18px;
+top:19px;
+
+opacity:0.7;
 
 }
 
@@ -77,7 +124,9 @@ input,select{
 
 width:100%;
 
-padding:16px;
+padding:17px;
+
+padding-left:50px;
 
 margin-top:15px;
 
@@ -85,13 +134,19 @@ border:none;
 
 outline:none;
 
-border-radius:16px;
+border-radius:18px;
 
-background:#18243d;
+background:#16213d;
 
 color:white;
 
-font-size:18px;
+font-size:16px;
+
+}
+
+select{
+
+padding-left:17px;
 
 }
 
@@ -105,15 +160,20 @@ margin-top:20px;
 
 border:none;
 
-border-radius:16px;
+border-radius:18px;
 
-background:#2952e3;
+background:
+linear-gradient(
+90deg,
+#2952e3,
+#4f7cff
+);
 
 color:white;
 
-font-size:22px;
+font-size:19px;
 
-font-weight:bold;
+font-weight:600;
 
 cursor:pointer;
 
@@ -123,9 +183,7 @@ transition:0.3s;
 
 button:hover{
 
-opacity:0.9;
-
-transform:scale(1.02);
+transform:translateY(-2px);
 
 }
 
@@ -141,6 +199,8 @@ display:none;
 
 object-fit:cover;
 
+max-height:260px;
+
 }
 
 .title{
@@ -149,9 +209,61 @@ margin-top:15px;
 
 font-size:20px;
 
-font-weight:bold;
+line-height:32px;
 
-line-height:30px;
+font-weight:600;
+
+}
+
+.details{
+
+margin-top:20px;
+
+background:#16213d;
+
+padding:18px;
+
+border-radius:18px;
+
+text-align:left;
+
+display:none;
+
+}
+
+.details p{
+
+margin-top:10px;
+
+color:#cbd5e1;
+
+font-size:14px;
+
+line-height:24px;
+
+}
+
+.tags{
+
+margin-top:15px;
+
+display:flex;
+
+flex-wrap:wrap;
+
+gap:10px;
+
+}
+
+.tag{
+
+padding:8px 14px;
+
+background:#2952e3;
+
+border-radius:30px;
+
+font-size:12px;
 
 }
 
@@ -159,11 +271,11 @@ line-height:30px;
 
 width:100%;
 
-height:12px;
+height:13px;
 
-background:#18243d;
+background:#16213d;
 
-border-radius:20px;
+border-radius:30px;
 
 overflow:hidden;
 
@@ -179,7 +291,12 @@ height:100%;
 
 width:0%;
 
-background:#2952e3;
+background:
+linear-gradient(
+90deg,
+#2952e3,
+#4f7cff
+);
 
 transition:1s;
 
@@ -191,35 +308,21 @@ margin-top:15px;
 
 color:#cbd5e1;
 
-font-size:17px;
+font-size:15px;
+
+min-height:24px;
 
 }
 
 .footer{
 
-margin-top:25px;
+margin-top:30px;
 
 font-size:14px;
 
-color:#6b7280;
+color:#94a3b8;
 
-}
-
-.features{
-
-margin-top:25px;
-
-text-align:left;
-
-}
-
-.features p{
-
-margin-top:10px;
-
-color:#cbd5e1;
-
-font-size:15px;
+line-height:25px;
 
 }
 
@@ -235,16 +338,24 @@ font-size:15px;
 ⚡
 </div>
 
-<h1>Downloader</h1>
+<h1>Elite Downloader</h1>
 
 <div class="subtitle">
-YouTube • Instagram • MP3 • HD
+Instagram • Facebook • YouTube • MP3
+</div>
+
+<div class="inputBox">
+
+<div class="inputIcon">
+🔗
 </div>
 
 <input
 type="text"
 id="url"
 placeholder="Paste video URL">
+
+</div>
 
 <select id="quality">
 
@@ -269,17 +380,45 @@ MP3 Audio
 <button onclick="getInfo()">
 Get Video
 </button>
-<div id="preview" style="display:none; margin-top:20px;">
 
-<img id="thumb"
-style="width:100%; border-radius:15px;">
+<div id="preview"
+style="display:none;">
 
-<h3 id="title"
-style="color:white; margin-top:10px;"></h3>
+<img
+id="thumb"
+class="thumb"
+crossorigin="anonymous"
+referrerpolicy="no-referrer">
 
+<h3
+id="title"
+class="title">
+</h3>
 
 </div>
 
+<div
+id="details"
+class="details">
+
+<p id="uploader"></p>
+
+<p id="views"></p>
+
+<p id="likes"></p>
+
+<p id="duration"></p>
+
+<p id="uploadDate"></p>
+
+<p id="description"></p>
+
+<div
+id="tags"
+class="tags">
+</div>
+
+</div>
 
 <button
 id="downloadBtn"
@@ -306,25 +445,15 @@ class="status"
 id="status">
 </div>
 
-<div class="features">
-
-<p>✅ Fast Download</p>
-
-<p>✅ HD Quality</p>
-
-<p>✅ MP3 Support</p>
-
-<p>✅ No Watermark</p>
-
-<p>✅ Unlimited Downloads</p>
-
-</div>
-
 <div class="footer">
-<p style="text-align:center;color:white;margin-bottom:10px;">
+
+<p>
 Created by Elite
 </p>
-Powered by Elite 
+
+<p>
+Powered by Elite Downloader Pro
+</p>
 
 </div>
 
@@ -345,8 +474,10 @@ return;
 
 }
 
-document.getElementById('status')
-.innerText =
+const status =
+document.getElementById('status');
+
+status.innerText =
 'Fetching video info...';
 
 try{
@@ -367,35 +498,95 @@ body:JSON.stringify({url})
 const data =
 await response.json();
 
-
 if(data.success){
 
-document.getElementById("preview").style.display = "block";
+document.getElementById("preview")
+.style.display = "block";
 
-document.getElementById("thumb").src = data.thumbnail;
+const thumb =
+document.getElementById("thumb");
 
-document.getElementById("title").innerText = data.title;
+thumb.style.display = "block";
 
+thumb.src =
+data.thumbnail ||
+'https://placehold.co/600x400/png?text=Preview';
 
-document.getElementById("downloadBtn").style.display = "block";
-}
+thumb.onerror = function(){
 
-document.getElementById('title')
+this.src =
+'https://placehold.co/600x400/png?text=Preview';
+
+};
+
+document.getElementById("title")
 .innerText =
 data.title || 'Video Ready';
 
-document.getElementById('downloadBtn')
-.style.display='block';
+document.getElementById("details")
+.style.display = "block";
 
-document.getElementById('status')
+document.getElementById("uploader")
+.innerHTML =
+"👤 Uploader: " + data.uploader;
+
+document.getElementById("views")
+.innerHTML =
+"👁 Views: " + data.views;
+
+document.getElementById("likes")
+.innerHTML =
+"❤️ Likes: " + data.likes;
+
+document.getElementById("duration")
+.innerHTML =
+"⏱ Duration: " + data.duration;
+
+document.getElementById("uploadDate")
+.innerHTML =
+"📅 Upload Date: " + data.uploadDate;
+
+document.getElementById("description")
 .innerText =
+data.description;
+
+const tagsContainer =
+document.getElementById("tags");
+
+tagsContainer.innerHTML = '';
+
+if(data.tags){
+
+data.tags.slice(0,10).forEach(tag=>{
+
+tagsContainer.innerHTML +=
+`
+<div class="tag">
+#${tag}
+</div>
+`;
+
+});
+
+}
+
+document.getElementById("downloadBtn")
+.style.display = "block";
+
+status.innerText =
 'Ready to download';
+
+}else{
+
+status.innerText =
+'Failed to fetch video';
+
+}
 
 }catch(err){
 
-document.getElementById('status')
-.innerText =
-'Failed to fetch info';
+status.innerText =
+'Server error';
 
 }
 
@@ -417,6 +608,9 @@ return;
 
 }
 
+document.getElementById("progress")
+.style.display = "block";
+
 const bar =
 document.getElementById('bar');
 
@@ -425,7 +619,8 @@ document.getElementById('status');
 
 bar.style.width = '0%';
 
-status.innerText = 'Starting download...';
+status.innerText =
+'Preparing download...';
 
 let progress = 0;
 
@@ -446,7 +641,7 @@ status.innerText =
 },700);
 
 window.location.href =
-`/download?url=${encodeURIComponent(url)}`;
+`/download?url=${encodeURIComponent(url)}&quality=${quality}`;
 
 setTimeout(()=>{
 
